@@ -1,4 +1,5 @@
-llm_stack_cdk/*.js
+llm_stack_cdk/test/*.js
+llm_stack_cdk/test/*.d.ts
 llm_stack_cdk/!jest.config.js
 llm_stack_cdk/*.d.ts
 llm_stack_cdk/node_modules
