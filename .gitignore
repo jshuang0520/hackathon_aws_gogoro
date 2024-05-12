@@ -1,0 +1,8 @@
+llm_stack_cdk/*.js
+llm_stack_cdk/!jest.config.js
+llm_stack_cdk/*.d.ts
+llm_stack_cdk/node_modules
+
+# CDK asset staging directory
+llm_stack_cdk/.cdk.staging
+llm_stack_cdk/cdk.out
