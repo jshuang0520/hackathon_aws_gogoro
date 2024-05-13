@@ -2,9 +2,13 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 
-export class S3CdkStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
-    super(scope, id, props);
+export class S3Buckets extends Construct {
+
+  public readonly filesBucket: s3.Bucket;
+  public readonly userFeedbackBucket: s3.Bucket;
+
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
 
     // Get current AWS account ID
     const accountId = cdk.Stack.of(this).account;
@@ -12,16 +16,42 @@ export class S3CdkStack extends cdk.Stack {
     // Get current AWS region
     const region = cdk.Stack.of(this).region;
 
-    // Create an S3 bucket with the specified pattern
-    const bucketName = `genai-bootcamp-cdk-bucket-${accountId}-${region}`;
-
-    // Create an S3 bucket with the current account ID in the name
-    new s3.Bucket(this, 'MyS3Bucket', {
-      bucketName: bucketName,
-      // In production you should update the removal policy to RETAIN to avoid accidental data loss.
-      removalPolicy: cdk.RemovalPolicy.DESTROY ,
-      encryption: s3.BucketEncryption.KMS_MANAGED
+    const logsBucket = new s3.Bucket(this, `LogsBucket-${accountId}-${region}`, {
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+      enforceSSL: true,
     });
 
+    this.filesBucket = new s3.Bucket(this, `FilesBucket-${accountId}-${region}`, {
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+      transferAcceleration: true,
+      enforceSSL: true,
+      serverAccessLogsBucket: logsBucket,
+      cors: [
+        {
+          allowedHeaders: ["*"],
+          allowedMethods: [
+            s3.HttpMethods.PUT,
+            s3.HttpMethods.POST,
+            s3.HttpMethods.GET,
+            s3.HttpMethods.HEAD,
+          ],
+          allowedOrigins: ["*"],
+          exposedHeaders: ["ETag"],
+          maxAge: 3000,
+        },
+      ],
+    });
+
+    this.userFeedbackBucket = new s3.Bucket(this, `UserFeedbackBucket-${accountId}-${region}`, {
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+      enforceSSL: true,
+      serverAccessLogsBucket: logsBucket,
+    });
   }
 }
