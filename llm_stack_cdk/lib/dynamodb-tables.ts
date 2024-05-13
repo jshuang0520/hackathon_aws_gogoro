@@ -26,8 +26,11 @@ export class ChatDynamoDBTables extends Construct {
     });
 
     this.sessionsTable.addGlobalSecondaryIndex({
-      indexName: this.byUserIdIndex,
-      partitionKey: { name: "UserId", type: dynamodb.AttributeType.STRING },
+        indexName: this.byUserIdIndex,
+        partitionKey: { 
+            name: "UserId",
+            type: dynamodb.AttributeType.STRING 
+        },
     });
   }
 }
@@ -71,43 +74,42 @@ export class RagDynamoDBTables extends Construct {
         });
 
         this.documentsTable = new dynamodb.Table(this, "Documents", {
-        partitionKey: {
-            name: "workspace_id",
-            type: dynamodb.AttributeType.STRING,
-        },
-        sortKey: {
-            name: "document_id",
-            type: dynamodb.AttributeType.STRING,
-        },
-        billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-        encryption: dynamodb.TableEncryption.AWS_MANAGED,
-        pointInTimeRecovery: true,
-        removalPolicy: cdk.RemovalPolicy.DESTROY,
+            partitionKey: {
+                name: "workspace_id",
+                type: dynamodb.AttributeType.STRING,
+            },
+            sortKey: {
+                name: "document_id",
+                type: dynamodb.AttributeType.STRING,
+            },
+            billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+            encryption: dynamodb.TableEncryption.AWS_MANAGED,
+            pointInTimeRecovery: true,
+            removalPolicy: cdk.RemovalPolicy.DESTROY,
         });
 
         this.documentsTable.addGlobalSecondaryIndex({
-        indexName: this.documentsByCompoundKeyIndexName,
-        partitionKey: {
-            name: "workspace_id",
-            type: dynamodb.AttributeType.STRING,
-        },
-        sortKey: {
-            name: "compound_sort_key",
-            type: dynamodb.AttributeType.STRING,
-        },
+            indexName: this.documentsByCompoundKeyIndexName,
+            partitionKey: {
+                name: "workspace_id",
+                type: dynamodb.AttributeType.STRING,
+            },
+            sortKey: {
+                name: "compound_sort_key",
+                type: dynamodb.AttributeType.STRING,
+            },
         });
 
         this.documentsTable.addGlobalSecondaryIndex({
-        indexName: this.documentsByStatusIndexName,
-        partitionKey: {
-            name: "status",
-            type: dynamodb.AttributeType.STRING,
-        },
-        sortKey: {
-            name: "document_type",
-            type: dynamodb.AttributeType.STRING,
-        },
+            indexName: this.documentsByStatusIndexName,
+            partitionKey: {
+                name: "status",
+                type: dynamodb.AttributeType.STRING,
+            },
+            sortKey: {
+                name: "document_type",
+                type: dynamodb.AttributeType.STRING,
+            },
         });
   }
 }
-
