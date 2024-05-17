@@ -2,7 +2,7 @@ import * as path from "path";
 import * as cdk from "aws-cdk-lib";
 import { SageMakerModelEndpoint, SystemConfig } from "../shared/types";
 import { Construct } from "constructs";
-import { RagEngines } from "../rag-engines";
+import { RagEngines } from "rag-engines";
 import * as cognito from "aws-cdk-lib/aws-cognito";
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
@@ -21,8 +21,10 @@ export interface ApiResolversProps {
   readonly config: SystemConfig;
   readonly ragEngines?: RagEngines;
   readonly userPool: cognito.UserPool;
+  
   readonly sessionsTable: dynamodb.Table;
   readonly byUserIdIndex: string;
+  
   readonly userFeedbackBucket: s3.Bucket;
   readonly modelsParameter: ssm.StringParameter;
   readonly models: SageMakerModelEndpoint[];

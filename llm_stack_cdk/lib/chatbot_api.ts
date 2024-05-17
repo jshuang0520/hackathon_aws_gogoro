@@ -1,8 +1,8 @@
 import * as sns from "aws-cdk-lib/aws-sns";
 import { Construct } from "constructs";
 import * as appsync from "aws-cdk-lib/aws-appsync";
-import { S3Buckets } from "./s3_cdk";
-import { ChatDynamoDBTables } from "./dynamodb-tables";
+import { S3Buckets } from "./s3";
+import { ChatDynamoDBTables } from "./dynamodb";
 
 
 export interface ChatBotApiProps {

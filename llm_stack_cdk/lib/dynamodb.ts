@@ -41,7 +41,7 @@ export class RagDynamoDBTables extends Construct {
     public readonly documentsTable: dynamodb.Table;
     public readonly workspacesByObjectTypeIndexName: string ="by_object_type_idx";
     public readonly documentsByCompoundKeyIndexName: string ="by_compound_key_idx";
-    public readonly documentsByStatusIndexName: string = "by_status_idx";
+    public readonly documentsByStatusIndexName: string      = "by_status_idx";
 
     constructor(scope: Construct, id: string) {
         super(scope, id);

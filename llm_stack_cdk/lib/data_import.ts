@@ -1,6 +1,6 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
-import { ImportBucket } from "./s3_cdk";
+import { ImportBucket } from "./s3";
 export interface DataImportProps {
 //     readonly config: SystemConfig;
 //     readonly shared: Shared;
